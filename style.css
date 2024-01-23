@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+/*  background: #a85322;*/
+  /*background: #a14f20;
+  color: #ed9766;*/
+  background: #0f1e1e;
+}
+
+
+.ufo-dot {
+  fill: #f59342;
+}
+
+.ufo-dot.hovered {
+  fill: #fff;
+}
+
+
+.timeline-bar {
+  fill: rgb(18, 38, 38);
+}
+
+.timeline-bar.hovered {
+  fill: #fff;
+}

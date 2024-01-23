@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+  </head>
+  <body>
+    <div id="app" class="sm:flex h-screen w-full">
+      <div class="sm:w-2/3 h-full w-full">
+        <div id="map-wrapper" class="bg-[#0a0e0e] w-full h-[80%] relative">
+          <div id="map-tooltip" class="hidden p-4 bg-black absolute text-white font-mono"></div>
+        </div>
+        <div id="timeline-wrapper" class="bg-[#313f43] w-full h-[20%] relative">
+          <div id="timeline-tooltip" class="hidden p-4 bg-black absolute text-white font-mono text-xs whitespace-nowrap"></div>
+        </div>
+      </div>
+      <div id="charts-wrapper" class="flex sm:w-1/3 h-full bg-[#032029] w-full">
+        <div class="chart-wrapper" class="bg-black"></div>
+      </div>
+    </div>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
