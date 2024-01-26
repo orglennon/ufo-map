@@ -10,12 +10,10 @@ let data;
 let projection, geojson, geoData;
 let rotate = [60,-30];
 let scale = 1
-let svg, path, graticule, graticules, countries, locations, geopathLocations;
+let svg, path, graticule, graticules, countries, locations;
 
 
 export function initMap(_d, g) {
-  // console.log(STATE, "STATE in map")
-  // setup data
   geoData = g;
   data = _d;
   geojson = topojson.feature(geoData, geoData.objects.countries).features;
@@ -36,33 +34,20 @@ export function initMap(_d, g) {
     .attr("id", "globe")
     .attr("fill", "#122626")
 
-  // need to initialize the 
   projection = d3.geoOrthographic()
-    // .scale(scale)
-    // .center([0, 0])
-    // .rotate(rotate)
-
-    // console.log(projection.rotate(), projection.scale(), "rotate + scale")
-
 
   svg.call(d3.drag().on('drag', (e) => {
     // return
     if(STATE.MOBILE){
+      console.log(e)
       const r = projection.rotate()
       const sensitivity = 75
       const k = sensitivity / projection.scale()
-      // console.log(e)
-      // projection.rotate([
-      //   r[0] + e.dx * k,
-      //   r[1] - e.dy * k
-      // ])
-      // console.log(r, e.dx, e.dy, k)
       rotate = [
         r[0] + e.dx * k,
         r[1] - e.dy * k
       ]
-      // path = d3.geoPath().projection(projection)
-      // svg.selectAll("path").attr("d", path)
+
       sizeMap()
     } else {
       console.log("not mobile")
@@ -88,13 +73,6 @@ export function initMap(_d, g) {
       .style('stroke', '#bb693c')
 
     
-  // geopathLocations = svg.append("g").attr('id', "geopathLocations")
-
-  // geopathLocations.selectAll("path")
-  //     .data(geojson)
-  //     .enter()
-  //     .append("path")
-  //     .style("fill", "red")
   
 
   locations = svg.append("g").attr('id', "locations")

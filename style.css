@@ -19,10 +19,28 @@ body {
 }
 
 
+#map-tooltip {
+  background: rgba(18, 28, 28, 0.9);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #f59342;
+  font-size: 12px;
+  padding: 20px;
+  text-shadow: 0 0 10px #d46102, 0 0 15px #f59342, 0 0 25px #000, 0 0 30px #f59342;
+}
+
+
 .timeline-bar {
   fill: rgb(18, 38, 38);
 }
 
 .timeline-bar.hovered {
   fill: #fff;
+}
+
+#x-axis {
+  font-family: monospace;
+}
+
+#x-axis .tick text {
+  fill: #697371;
 }

@@ -1,7 +1,8 @@
 import './style.css'
 import { DateTime } from 'luxon'
 import { STATE } from './app_state.js'
-import { initMap, sizeMap } from './map.js'
+// import { initMap, sizeMap } from './map.js'
+import { initMap, sizeMap, renderMap } from './map_canvas.js'
 import { initTimeline, sizeTimeline } from './timeline.js'
 // import { csv, json, text } from 'd3';
 import * as d3 from 'd3';
@@ -78,6 +79,7 @@ function resize(){
   setState()
   sizeMap()
   sizeTimeline()
+  renderMap()
 }
 
 if(window.innerWidth < 640){

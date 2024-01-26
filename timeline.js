@@ -2,7 +2,7 @@ import * as d3 from 'd3';
 import * as topojson from 'topojson';
 import { DateTime } from 'luxon';
 import { STATE } from './app_state.js';
-import { highlightLocations } from './map.js'
+import { highlightLocations } from './map_canvas.js'
 
 
 
@@ -16,7 +16,7 @@ export function initTimeline(_d, _t) {
   data = _d
   timelineData = _t;
 
-  console.log(timelineData)
+  // console.log(timelineData)
 
   // setup dom
   svg = d3.select("#timeline-wrapper").insert('svg', ':first-child')
@@ -43,8 +43,7 @@ export function initTimeline(_d, _t) {
 
           d3.select("#timeline-tooltip")
             .classed("hidden", false)
-            .style("left", x + "px")
-            .style("top", y + "px")
+            .style("left", x-50 + "px")
             .html(`${formatDate(d.x0)}: ${d.length}`)
 
 
@@ -58,13 +57,17 @@ export function initTimeline(_d, _t) {
           highlightLocations(null)
         })
 
+  svg.append('g')
+  .attr("id", "x-axis")
+  
+
   sizeTimeline()
 }
 
 export function sizeTimeline(){
   let timelineWrapperEl = document.getElementById("timeline-wrapper")
-  console.log(timelineWrapperEl.getBoundingClientRect())
-  let padding = 10;
+  // console.log(timelineWrapperEl.getBoundingClientRect())
+  let padding = {top:10, right:10, bottom:30, left:10}
   width = timelineWrapperEl.getBoundingClientRect().width
   height = timelineWrapperEl.getBoundingClientRect().height
 
@@ -72,11 +75,16 @@ export function sizeTimeline(){
 
   xScale = d3.scaleTime()
             .domain(timelineData.dateRange)
-            .range([padding, width-padding])
+            .range([padding.left, width-padding.right])
 
   yScale = d3.scaleLinear()
             .domain([0, d3.max(timelineData.bins, d => d.length)]).nice()
-            .range([height-padding, padding])
+            .range([height-padding.bottom, padding.top])
+
+  let barWidth = (width-(padding.left+padding.right)) / timelineData.bins.length - 1;
+  console.log(width, padding, timelineData)
+
+  // Math.max(0, xScale(d.x1) - xScale(d.x0) - 1)
 
   bars.selectAll("rect")
       .data(timelineData.bins)
@@ -84,14 +92,35 @@ export function sizeTimeline(){
         // .attr("width", "10px")
         // .attr("height", "10px")
         .attr("x", d => xScale(d.x0) + 1)
-        .attr("width", d => Math.max(0, xScale(d.x1) - xScale(d.x0) - 1))
+        .attr("width", barWidth )
         .attr("y", d => yScale(d.length))
         .attr("height", d => yScale(0) - yScale(d.length))
+
+        console.log(timelineData)
+
+  // ticks for all bins
+  // d3.select("#x-axis")
+  //   .attr("transform", "translate(0," + (height-padding.bottom) + ")")
+  //   .call(
+  //     d3.axisBottom(xScale)
+  //       .tickFormat(d3.timeFormat("%Y-%m-%d"))
+  //       .tickValues(timelineData.bins.map(function(d) { return d.x0 }))
+  //   )
+
+  let xAxis = d3.select("#x-axis")
+    .attr("transform", "translate(0," + (height-padding.bottom) + ")")
+    .call(
+      d3.axisBottom(xScale)
+        .tickFormat(d3.timeFormat("%Y"))
+    )
+
+  xAxis.selectAll(".tick")
+        .style("margin-left", barWidth/2)
 }
 
 
 export function highlightTimeline(location){
-  console.log(location)
+  // console.log(location)
 
   if(location == null){
     bars.selectAll(".timeline-bar")
